@@ -28,27 +28,65 @@ window.agregarFunko = function (event) {
     let nuevoFunko = new Funko(codigo, nombre, numSerie, categoria, descripcion, imagen, precio);
 
     console.log(nuevoFunko);
-    
+
     listaFunko.push(nuevoFunko);
     localStorage.setItem("funkoKey", JSON.stringify(listaFunko));
-    
+
     limpiarFormulario();
+    leerProductos();
 
 };
 
-function limpiarFormulario(){
+function limpiarFormulario() {
     let formulario = document.getElementById("formProducto");
     formulario.reset();
 }
 
-function leerProductos(){
-    if(localStorage.length > 0){
+function leerProductos() {
+    if (localStorage.length > 0) {
 
         let _listaFunko = JSON.parse(localStorage.getItem("funkoKey"));
 
-        if(listaFunko.length == 0){
+        if (listaFunko.length == 0) {
             listaFunko = _listaFunko;
+        }
+        //borrar tabla
+        borrarTabla();
+        //dibujar tabla
+        dibujarTabla(_listaFunko);
+    }
+}
 
+function dibujarTabla(_listaFunko){
+    let tablaFunko = document.getElementById("tablaFunko");
+
+    let codigoHTML = "";
+
+    for(let i in _listaFunko){
+        codigoHTML = `<tr>
+        <th scope="row">${_listaFunko[i].codigo}</th>
+        <td>${_listaFunko[i].nombre}</td>
+        <td>${_listaFunko[i].numSerie}</td>
+        <td>${_listaFunko[i].categoria}</td>
+        <td>${_listaFunko[i].descripcion}</td>
+        <td>${_listaFunko[i].imagen}</td>
+        <td>$${_listaFunko[i].precio}</td>
+        <td>
+            <button class="btn btn-outline-success">Editar</button>
+            <button class="btn btn-outline-danger">Eliminar</button>
+        </td>
+    </tr>`;
+
+    tablaFunko.innerHTML += codigoHTML;
+    }
+}
+
+function borrarTabla(){
+    let tablaFunko = document.getElementById("tablaFunko");
+
+    if (tablaFunko.children.length > 0){
+        while (tablaFunko.firstChild) {
+            tablaFunko.removeChild(tablaFunko.firstChild)
         }
     }
 }
@@ -60,7 +98,7 @@ function leerProductos(){
 
 //Validacion del formulario
 
-window.revisar = function(input) {
+window.revisar = function (input) {
     if (input.value == "") {
         input.className = "form-control is-invalid";
         return false;
