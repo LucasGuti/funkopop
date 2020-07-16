@@ -73,7 +73,7 @@ function dibujarTabla(_listaFunko){
         <td>$${_listaFunko[i].precio}</td>
         <td>
             <button class="btn btn-outline-success">Editar</button>
-            <button class="btn btn-outline-danger">Eliminar</button>
+            <button class="btn btn-outline-danger" onclick="eliminarProducto(this)" id= "$">Eliminar</button>
         </td>
     </tr>`;
 
@@ -89,6 +89,29 @@ function borrarTabla(){
             tablaFunko.removeChild(tablaFunko.firstChild)
         }
     }
+}
+
+window.eliminarProducto = function (botonEliminar) {
+    if(localStorage.length > 0){
+        let _listaFunko = JSON.parse(localStorage.getItem("funkoKey"));
+        //Opcion 1
+        /*for (let i in _listaFunko) {
+            if(_listaFunko[i].codigo == botonEliminar.id){
+
+            }
+        }*/
+
+        //opcion 2
+        let datosFiltrados = _listaFunko.filter(function (producto) {
+            return producto.codigo != botonEliminar.id;
+
+            console.log(datosFiltrados);
+
+
+        })
+    }
+    console.log(botonEliminar);
+
 }
 
 
